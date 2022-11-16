@@ -40,3 +40,11 @@ Console.WriteLine($""""
     if I please (which I do).
     
     """");
+
+Console.WriteLine("\n========== Fun with static members ==========");
+var myFirstNumber = new MyInt();
+var mySecondNumber = MyInt.Zero;
+var myThirdNumber = new MyInt(1);
+var myFourthNumber = new MyInt(2);
+var myFifthNumber = MyInt.Negate(myFourthNumber);
+Console.WriteLine(myFirstNumber + mySecondNumber + myThirdNumber + myFourthNumber - myFifthNumber);
