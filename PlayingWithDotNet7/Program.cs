@@ -80,9 +80,9 @@ var transactions = new object[][] {
     new object[] {"01-11-2022", "withdrawal", 150 },
     new object[] {"02-11-2022", "deposit", 200 },
     new object[] {"03-11-2022", "withdrawal", 139.5 },
+    new object[] {"08-11-2022", "theft", 1000000 },
     new object[] {"05-11-2022", "withdrawal", 600 },
-    new object[] {"08-11-2022", "withdrawal", 300 },
-    new object[] {"08-11-2022", "robbing", 1000000 }
+    new object[] {"08-11-2022", "withdrawal", 300 }
 };
 
 var asDouble = (object numericObject) =>
@@ -108,7 +108,7 @@ foreach (var transaction in transactions)
     {
         [var date, "deposit", var amount] => $"{date}: {amount} deposited. New total: {performTransaction(asDouble(amount))}",
         [var date, "withdrawal", var amount] => $"{date}: {amount} withdrawn. New total: {performTransaction(-asDouble(amount))}",
-        _ => "Illegal transaction was cancelled."
+        _ => $"Illegal transaction was cancelled. Total: {accountTotal}"
     };
 
     Console.WriteLine(receipt);
