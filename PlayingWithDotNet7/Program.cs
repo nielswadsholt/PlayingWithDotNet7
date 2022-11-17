@@ -62,3 +62,54 @@ var myThirdNumber = new MyInt(1);
 var myFourthNumber = new MyInt(2);
 var myFifthNumber = MyInt.Negate(myFourthNumber);
 Console.WriteLine(myFirstNumber + mySecondNumber + myThirdNumber + myFourthNumber - myFifthNumber);
+
+
+Console.WriteLine("\n========== Fun with list patterns ==========");
+var awesomeArray = new[] { 1, 2, 3 };
+Console.WriteLine(awesomeArray is [1, 2, 3]);
+Console.WriteLine(awesomeArray is [1, 2, 4]);
+Console.WriteLine(awesomeArray is [1, 2, 3, 4]);
+Console.WriteLine(awesomeArray is [<2, >=2, <=1+2]);
+Console.WriteLine(awesomeArray is [<2, ..]);
+Console.WriteLine(awesomeArray is [.., 4]);
+Console.WriteLine(awesomeArray is [var first, <=1, ..] ? first : "No match");
+
+var accountTotal = 0.0;
+var transactions = new object[][] {
+    new object[] {"01-11-2022", "deposit", 1000 },
+    new object[] {"01-11-2022", "withdrawal", 150 },
+    new object[] {"02-11-2022", "deposit", 200 },
+    new object[] {"03-11-2022", "withdrawal", 139.5 },
+    new object[] {"05-11-2022", "withdrawal", 600 },
+    new object[] {"08-11-2022", "withdrawal", 300 },
+    new object[] {"08-11-2022", "robbing", 1000000 }
+};
+
+var asDouble = (object numericObject) =>
+{
+    return numericObject switch
+    {
+        int => (int)numericObject,
+        double => (double)numericObject,
+        _ => throw new ArgumentException()
+    };
+};
+
+var performTransaction = (double amount) =>
+{
+    accountTotal += amount;
+
+    return accountTotal;
+};
+
+foreach (var transaction in transactions)
+{
+    var receipt = transaction switch
+    {
+        [var date, "deposit", var amount] => $"{date}: {amount} deposited. New total: {performTransaction(asDouble(amount))}",
+        [var date, "withdrawal", var amount] => $"{date}: {amount} withdrawn. New total: {performTransaction(-asDouble(amount))}",
+        _ => "Illegal transaction was cancelled."
+    };
+
+    Console.WriteLine(receipt);
+}
